@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body{
+
+    @apply text-white bg-gradient-to-br from-rose-300 to-rose-600
+}
