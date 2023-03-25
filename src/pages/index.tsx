@@ -1,11 +1,36 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useState, useEffect, useMemo } from "react";
+
 //import Link from "next/link";
 
 import { api } from "~/utils/api";
+import { getOptionsForVote } from "~/utils/getRandomCuisine";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  // const hello = api.example.hello.useQuery({ text: "123" });
+  // const num  = api.num.calc.useQuery({id: 10});
+
+  const [first, setFirst] = useState<number | null>(null);
+  const [second, setSecond] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchData = () => {
+      const optionsResponse = getOptionsForVote();
+
+      setFirst(optionsResponse[0] as number);
+      setSecond(optionsResponse[1] as number);
+    };
+    fetchData();
+  }, []);
+
+
+  // const [ids, setIds] = useState(() => getOptionsForVote());
+
+  // const [first,second] = ids;
+
+
+
 
   return (
     <>
@@ -19,16 +44,18 @@ const Home: NextPage = () => {
         <div className="text-2xl text-center">Which Cuisine is Tastier?</div>
         <div className="p-2"/>
         <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
-          <div className="w-16 h-16 bg-blue-500"/>
+          <div className="w-16 h-16 bg-blue-500 flex items-center justify-center">{first}</div>
           <div className="p-8">Vs</div>
-          <div className="w-16 h-16 bg-blue-500"/>
+          <div className="w-16 h-16 bg-blue-500 flex items-center justify-center">{second}</div>
 
         </div>
         
 
-        <p className="text-2xl text-white">
+        {/* <p className="text-2xl text-white">
           {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-        </p>
+          {num.data ? num.data.greeting : "Loading tRPC query..."}
+          
+        </p> */}
       </main>
     </>
   );
