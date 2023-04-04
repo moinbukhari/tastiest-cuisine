@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useState, useEffect, useMemo } from "react";
-
+import { useState, useEffect } from "react";
+import Image from "next/image";
 //import Link from "next/link";
 
 import { api } from "~/utils/api";
@@ -13,10 +13,10 @@ const Home: NextPage = () => {
   const btn =
   "inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
   
-  const [first, setFirst] = useState<number>(0);
-  const [second, setSecond] = useState<number>(0);
+  const [first, setFirst] = useState<string>("0");
+  const [second, setSecond] = useState<string>("0");
   const fetchData = () => {
-    const optionsResponse = getOptionsForVote() as [number, number];
+    const optionsResponse = getOptionsForVote() as [string, string];
 
     setFirst(optionsResponse[0]);
     setSecond(optionsResponse[1]);
@@ -31,8 +31,12 @@ const Home: NextPage = () => {
 
   // const [first,second] = ids;
 
-  const voteForTastiest = (selected: number) => {
+  const voteForTastiest = (selected: string) => {
+    if(selected == first){
 
+    }else{
+
+    }
     fetchData();
   }
 
@@ -49,18 +53,18 @@ const Home: NextPage = () => {
         <div className="text-2xl text-center">Which Cuisine is Tastier?</div>
         <div className="p-2"/>
         <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
-          <div className="w-64 h-64  flex flex-col items-center justify-center">
+          <div className="w-64 h-64 flex flex-col gap-3 items-center justify-center">
             <div>
-              {first}
+              <Image src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${first}.svg`} alt={first} width={256} height={256}/>
             </div>
             <button className={btn} onClick={() => voteForTastiest(first)}>
               Tastier
             </button>
           </div>
           <div className="p-8">Vs</div>
-          <div className="w-64 h-64  flex flex-col items-center justify-center">
+          <div className="w-64 h-64  flex flex-col gap-3 items-center justify-center">
             <div>
-              {second}
+            <Image src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${second}.svg`} alt={second} width={256} height={256}/>
             </div>
             <button className={btn} onClick={() => voteForTastiest(second)}>
               Tastier
