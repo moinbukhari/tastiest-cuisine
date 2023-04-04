@@ -15,6 +15,8 @@ const Home: NextPage = () => {
   
   const [first, setFirst] = useState<string>("0");
   const [second, setSecond] = useState<string>("0");
+  const voteMutation = api.example.vote.useMutation();
+ 
   const fetchData = () => {
     const optionsResponse = getOptionsForVote() as [string, string];
 
@@ -26,16 +28,24 @@ const Home: NextPage = () => {
     fetchData();
   }, []);
 
-
+  // const optionsResponse = api.example.getPair as [string, string];
+  // console.log(optionsResponse)
   // const [ids, setIds] = useState(() => getOptionsForVote());
 
   // const [first,second] = ids;
 
   const voteForTastiest = (selected: string) => {
     if(selected == first){
+      voteMutation.mutate({
+        votedFor: first,
+        votedAgainst: second,
+      })
 
     }else{
-
+      voteMutation.mutate({
+        votedFor: second,
+        votedAgainst: first,
+      })
     }
     fetchData();
   }
