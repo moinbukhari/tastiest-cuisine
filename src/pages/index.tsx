@@ -13,12 +13,16 @@ const Home: NextPage = () => {
   const btn =
   "inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
   
-  const [first, setFirst] = useState<string>("0");
-  const [second, setSecond] = useState<string>("0");
+  const [first, setFirst] = useState<number>(0);
+  const [second, setSecond] = useState<number>(0);
   const voteMutation = api.example.vote.useMutation();
+  const firstCuisine = api.example.getCuisine.useQuery({id: first});
+  const secondCuisine = api.example.getCuisine.useQuery({id: second});
  
   const fetchData = () => {
-    const optionsResponse = getOptionsForVote() as [string, string];
+    const optionsResponse = getOptionsForVote() as [number,number];
+
+    console.log(optionsResponse);
 
     setFirst(optionsResponse[0]);
     setSecond(optionsResponse[1]);
@@ -34,17 +38,17 @@ const Home: NextPage = () => {
 
   // const [first,second] = ids;
 
-  const voteForTastiest = (selected: string) => {
+  const voteForTastiest = (selected: number) => {
     if(selected == first){
       voteMutation.mutate({
-        votedFor: first,
-        votedAgainst: second,
+        votedForId: first,
+        votedAgainstId: second,
       })
 
     }else{
       voteMutation.mutate({
-        votedFor: second,
-        votedAgainst: first,
+        votedForId: second,
+        votedAgainstId: first,
       })
     }
     fetchData();
@@ -65,7 +69,7 @@ const Home: NextPage = () => {
         <div className="border rounded p-8 flex justify-between items-center max-w-2xl">
           <div className="w-64 h-64 flex flex-col gap-3 items-center justify-center">
             <div>
-              <Image src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${first}.svg`} alt={first} width={256} height={256}/>
+              <Image src={firstCuisine.data?.svgUrl as string} alt={'first'} width={256} height={256}/>
             </div>
             <button className={btn} onClick={() => voteForTastiest(first)}>
               Tastier
@@ -74,7 +78,7 @@ const Home: NextPage = () => {
           <div className="p-8">Vs</div>
           <div className="w-64 h-64  flex flex-col gap-3 items-center justify-center">
             <div>
-            <Image src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${second}.svg`} alt={second} width={256} height={256}/>
+            <Image src={secondCuisine.data?.svgUrl as string} alt={'second'} width={256} height={256}/>
             </div>
             <button className={btn} onClick={() => voteForTastiest(second)}>
               Tastier

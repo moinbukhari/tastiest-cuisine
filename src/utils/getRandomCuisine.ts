@@ -1,6 +1,6 @@
 const MAX_DEX_ID = 5;
 
-const countries = ["AF", "AL", "DZ", "AD", "AO"];
+// const countries = ["AF", "AL", "DZ", "AD", "AO"];
 
 export const getRandomCuisine: (notThisOne?: number ) => number = (notThisOne?: number) => {
     const cuisineNum = Math.floor(Math.random()* MAX_DEX_ID) + 1;
@@ -13,5 +13,5 @@ export const getOptionsForVote = () => {
     const firstId = getRandomCuisine();
     const secondId = getRandomCuisine(firstId);
 
-    return [countries[firstId-1], countries[secondId-1]];
+    return [firstId-1, secondId-1];
 }
